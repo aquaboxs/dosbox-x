@@ -1209,6 +1209,7 @@ void DOSBOX_RealInit() {
     else if (mtype == "svga_ati_mach8") { svgaCard = SVGA_ATI; atiCard = ATI_Mach8; }
     else if (mtype == "svga_ati_mach32") { svgaCard = SVGA_ATI; atiCard = ATI_Mach32; }
     else if (mtype == "svga_ati_mach64") { svgaCard = SVGA_ATI; atiCard = ATI_Mach64; }
+    else if (mtype == "svga_ati_rageiidvd") { svgaCard = SVGA_ATIRage; atirageCard = ATI_RageIIDVD; }
     else if (mtype == "mda")           { machine = MCH_MDA; }
     else if (mtype == "ega")           { machine = MCH_EGA; ega200 = false; }
     else if (mtype == "ega200")        { machine = MCH_EGA; ega200 = true; }
@@ -1488,6 +1489,7 @@ void DOSBOX_SetupConfigSections(void) {
 	"svga_ati_mach8",
 	"svga_ati_mach32",
 	"svga_ati_mach64",
+    "svga_ati_rageiidvd",
 	"fm_towns", // STUB
         nullptr };
 

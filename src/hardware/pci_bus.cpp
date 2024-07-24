@@ -207,6 +207,54 @@ public:
 	}
 };
 
+class PCI_ATIVGADevice:public PCI_Device {
+private:
+	static const uint16_t vendor=0x1002;		// ATI
+public:
+	static uint16_t GetDevice(void) {
+		switch (atirageCard) {
+			case ATI_RageIIDVD:
+				return 0x4755;
+			default:
+				break;
+		};
+
+		return 0x8811; // Trio64 DOSBox SVN default even though SVN is closer to Vision864 functionally
+	}
+	PCI_ATIVGADevice():PCI_Device(vendor,GetDevice()) {
+		// init (ATI rage graphics card)
+
+		// revision ID
+		config[0x08] = 0x3a;
+
+		config[0x09] = 0x00;	// interface
+		config[0x0a] = 0x00;	// subclass type (vga compatible)
+		config[0x0b] = 0x03;	// class type (display controller)
+		config[0x0c] = 0x00;	// cache line size
+		config[0x0d] = 0x40;	// latency timer
+		config[0x0e] = 0x00;	// header type (other)
+
+		config[0x3c] = 0xff;	// no irq
+
+		// reset
+		config[0x04] = 0x87;	// command register (vga palette snoop, ports enabled, memory space enabled)
+		config[0x05] = 0x00;
+		config[0x06] = 0x90;	// status register (medium timing, fast back-to-back)
+		config[0x07] = 0x02;
+
+		host_writew(config_writemask+0x04,0x0087);	/* allow changing mem/io enable and VGA palette snoop */
+
+		switch (atirageCard) {
+			case ATI_RageIIDVD:
+				host_writed(config_writemask+0x10,0xFF000000);
+				break;
+			default:
+				break;
+		};
+		host_writed(config_writemask+0x18,0xFF4000);
+	}
+};
+
 
 class PCI_SSTDevice:public PCI_Device {
 private:
@@ -436,6 +484,7 @@ static void Deinitialize(void) {
 }
 
 static PCI_Device *S3_PCI=NULL;
+static PCI_Device *ATI_PCI=NULL;
 static PCI_Device *SST_PCI=NULL;
 
 extern bool enable_pci_vga;
@@ -455,6 +504,24 @@ void PCI_RemoveSVGAS3_Device(void) {
 	if (S3_PCI != NULL) {
 		UnregisterPCIDevice(S3_PCI);
 		S3_PCI = NULL;
+	}
+}
+
+void PCI_AddSVGAATI_Device(void) {
+	if (!pcibus_enable || !enable_pci_vga) return;
+
+	if (ATI_PCI == NULL) {
+		if ((ATI_PCI=new PCI_ATIVGADevice()) == NULL)
+			return;
+
+		RegisterPCIDevice(ATI_PCI);
+	}
+}
+
+void PCI_RemoveSVGAATI_Device(void) {
+	if (ATI_PCI != NULL) {
+		UnregisterPCIDevice(ATI_PCI);
+		ATI_PCI = NULL;
 	}
 }
 

@@ -10996,6 +10996,12 @@ startfunction:
                             case ATI_Mach64:           card = "ATI Mach64"; break;
                         }
                         break;
+                    case SVGA_ATIRage:
+                        card = "ATI Rage SVGA";
+                        switch (atiCard) {
+                            case ATI_RageIIDVD:        card = "ATI Rage II DVD"; break;
+                        }
+                        break;
                     default:
                         card = "Standard VGA";
                         break;

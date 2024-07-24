@@ -163,6 +163,7 @@ Bitu pc98_read_9a8(Bitu /*port*/,Bitu /*iolen*/);
 void pc98_write_9a8(Bitu port,Bitu val,Bitu iolen);
 
 void SVGA_Setup_ATI(void);
+void SVGA_Setup_ATIRage(void);
 bool VGA_IsCaptureEnabled(void);
 void VGA_UpdateCapturePending(void);
 bool VGA_CaptureHasNextFrame(void);
@@ -1963,6 +1964,9 @@ void SVGA_Setup_Driver(void) {
         break;
     case SVGA_ATI:
         SVGA_Setup_ATI();
+        break;
+    case SVGA_ATIRage:
+        SVGA_Setup_ATIRage();
         break;
     default:
         if (IS_JEGA_ARCH) SVGA_Setup_JEGA();

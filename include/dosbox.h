@@ -132,7 +132,8 @@ enum SVGACards {
 	SVGA_TsengET4K,
 	SVGA_TsengET3K,
 	SVGA_ParadisePVGA1A,
-	SVGA_ATI
+	SVGA_ATI,
+    SVGA_ATIRage
 };
 
 enum S3Card {
@@ -163,11 +164,16 @@ enum ATICard {
 	ATI_Mach64                   // ATI 88800GX
 };
 
+enum ATIRageCard {
+    ATI_RageIIDVD                // Rage II+ DVD
+};
+
 typedef Bitu				(LoopHandler)(void);
 
 extern Config*				control;
 extern SVGACards			svgaCard;
 extern ATICard				atiCard;
+extern ATIRageCard          atirageCard;
 extern S3Card				s3Card;
 extern HerculesCard			hercCard;
 extern MachineType			machine;

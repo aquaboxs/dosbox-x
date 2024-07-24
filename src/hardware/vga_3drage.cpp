@@ -136,11 +136,11 @@ void SVGA_Setup_ATIRage(void) {
 	if (vga.mem.memsize == 0)
 		vga.mem.memsize = 2*1024*1024;
 
-	ati_state.config_chip_id = 0x3a004755;
+	atirage_state.config_chip_id = 0x3a004755;
 
-	IO_RegisterWriteHandler(0x1ce,&ATIExtIndex_Write,IO_MB);
-	IO_RegisterReadHandler(0x1ce,&ATIExtIndex_Read,IO_MB);
-	IO_RegisterWriteHandler(0x1cf,&ATIExtData_Write,IO_MB);
-	IO_RegisterReadHandler(0x1cf,&ATIExtData_Read,IO_MB);
+	IO_RegisterWriteHandler(0x1ce,&ATIRageExtIndex_Write,IO_MB);
+	IO_RegisterReadHandler(0x1ce,&ATIRageExtIndex_Read,IO_MB);
+	IO_RegisterWriteHandler(0x1cf,&ATIRageExtData_Write,IO_MB);
+	IO_RegisterReadHandler(0x1cf,&ATIRageExtData_Read,IO_MB);
 }
 

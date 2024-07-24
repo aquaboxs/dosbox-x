@@ -274,6 +274,7 @@ bool                PS1AudioCard;       // Perhaps have PS1 as a machine type...
 SVGACards           svgaCard;
 S3Card              s3Card;
 ATICard             atiCard;
+ATIRageCard         atirageCard;
 HerculesCard        hercCard;
 bool                SDLNetInited;
 int32_t              ticksDone;

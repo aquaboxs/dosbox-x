@@ -577,8 +577,8 @@ bool CDROM_Interface_Image::GetAudioSub(unsigned char& attr, unsigned char& trac
 	track = (unsigned char)cur_track;
 	attr = tracks[track - 1].attr;
 	index = 1;
-	FRAMES_TO_MSF(player.currFrame + 150, &absPos.min, &absPos.sec, &absPos.fr);
-	FRAMES_TO_MSF(player.currFrame - tracks[track - 1].start + 150, &relPos.min, &relPos.sec, &relPos.fr);
+	FRAMES_TO_MSF(player.currFrame, &absPos.min, &absPos.sec, &absPos.fr);
+	FRAMES_TO_MSF(player.currFrame - tracks[track - 1].start, &relPos.min, &relPos.sec, &relPos.fr);
 	if(IS_PC98_ARCH && player.playbackRemaining == 0 && !strcmp(RunningProgram, "ITP")) {
 		// POLICENAUTS
 		// It freeze at the end of the Konami logo or opening.
@@ -593,13 +593,13 @@ bool CDROM_Interface_Image::GetAudioSub(unsigned char& attr, unsigned char& trac
 
 	LOG_MSG("%s CDROM: GetAudioSub absolute offset (%d), MSF=%d:%d:%d",
       get_time(),
-	  player.currFrame + 150,
+	  player.currFrame,
 	  absPos.min,
 	  absPos.sec,
 	  absPos.fr);
 	LOG_MSG("%s CDROM: GetAudioSub relative offset (%d), MSF=%d:%d:%d",
       get_time(),
-	  player.currFrame - tracks[track - 1].start + 150,
+	  player.currFrame - tracks[track - 1].start,
 	  relPos.min,
 	  relPos.sec,
 	  relPos.fr);
@@ -1302,7 +1302,7 @@ bool CDROM_Interface_Image::LoadCueSheet(char *cuefile)
 	{
 		char *s = strrchr(cuefile,'.');
 		if (!s) return false;
-		if (!strcasecmp(s,".ccd") || !strcasecmp(s, ".chd") || !strcasecmp(s, ".iso") || !strcasecmp(s, ".img")
+		if (!strcasecmp(s,".ccd") || !strcasecmp(s, ".chd") || !strcasecmp(s, ".iso") || !strcasecmp(s, ".img") || !strcasecmp(s, ".gog")
             || !strcasecmp(s, ".mds") || !strcasecmp(s, ".mdf") || !strcasecmp(s, ".bin")) return false;
 	}
 

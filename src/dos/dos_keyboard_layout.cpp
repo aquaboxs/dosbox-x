@@ -1424,11 +1424,9 @@ Bitu DOS_ChangeKeyboardLayout(const char* layoutname, int32_t codepage) {
 }
 
 Bitu DOS_ChangeCodepage(int32_t codepage, const char* codepagefile) {
-    keyboard_layout* temp_layout = new keyboard_layout();
     // try to read the layout for the specified codepage
-    Bitu kerrcode = temp_layout->read_codepage_file(codepagefile, codepage);
+    Bitu kerrcode = loaded_layout->read_codepage_file(codepagefile, codepage);
     if(kerrcode) {
-        delete temp_layout;
         return kerrcode;
     }
     // Everything went fine
@@ -1505,12 +1503,9 @@ public:
 					wants_dos_codepage = GetDefaultCP();
 					break;
 				case 1033: // US, CP 437
-#if defined(HX_DOS)
                     layoutname = "us";
                     wants_dos_codepage = GetDefaultCP();
                     break;
-#endif
-					return;
 				case 1032: // Greece, CP 869, Alt CP 813
 					layoutname = "gk";
 					break;
@@ -1688,8 +1683,12 @@ public:
 				default:
 					break;
 			}
-#endif
 		}
+        else if(!strncmp(layoutname, "none", 4)) {
+            layoutname = "us";
+            wants_dos_codepage = 437;
+#endif
+        }
 
 		bool extract_codepage = !tocp;
 		if (wants_dos_codepage>0) {
